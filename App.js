@@ -1,6 +1,7 @@
 import React from "react";
 import * as Location from "expo-location";
 import { StyleSheet, Text, View, Alert } from "react-native";
+import Loading from "./Loading";
 
 export default class extends React.Component {
   state = {
@@ -26,9 +27,7 @@ export default class extends React.Component {
   render() {
     const { isLoading, latitude, longitude } = this.state;
     return isLoading ? (
-      <View style={styles.container}>
-        <Text style={styles.text}>Loading...</Text>
-      </View>
+      <Loading />
     ) : (
       <View style={styles.container}>
         <Text style={styles.text}>
