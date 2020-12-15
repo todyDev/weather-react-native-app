@@ -1,28 +1,52 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import * as Location from "expo-location";
+import { StyleSheet, Text, View, Alert } from "react-native";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <View style={styles.yellowView}></View>
-      <View style={styles.blueView}></View>
-      <StatusBar style="auto" />
-    </View>
-  );
+export default class extends React.Component {
+  state = {
+    isLoading: true
+  };
+
+  getLocation = async () => {
+    try {
+      await Location.requestPermissionsAsync();
+      const {
+        coords: { latitude, longitude }
+      } = await Location.getCurrentPositionAsync();
+      this.setState({ isLoading: false, latitude, longitude });
+    } catch (error) {
+      Alert.alert("Can't find you.", "So sad :(");
+    }
+  };
+
+  componentDidMount() {
+    this.getLocation();
+  }
+
+  render() {
+    const { isLoading, latitude, longitude } = this.state;
+    return isLoading ? (
+      <View style={styles.container}>
+        <Text style={styles.text}>Loading...</Text>
+      </View>
+    ) : (
+      <View style={styles.container}>
+        <Text style={styles.text}>
+          {latitude} {longitude}
+        </Text>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#fff"
+    flex: 1
   },
-  yellowView: {
+  text: {
     flex: 1,
-    backgroundColor: "yellow"
-  },
-  blueView: {
-    flex: 4,
-    backgroundColor: "blue"
+    textAlign: "center",
+    paddingVertical: 300,
+    fontSize: 15
   }
 });
