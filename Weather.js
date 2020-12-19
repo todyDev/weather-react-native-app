@@ -22,7 +22,7 @@ export default function Weather({ temp, condition }) {
 }
 
 Weather.propTypes = {
-  temp: PropTypes.object.isRequired,
+  temp: PropTypes.number.isRequired,
   condition: PropTypes.object.isRequired
 };
 
