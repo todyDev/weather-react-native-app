@@ -4,8 +4,9 @@ import axios from "axios";
 import { Alert } from "react-native";
 import Loading from "./Loading";
 import Weather from "./Weather";
+import env from "./env";
 
-const API_KEY = "";
+const API_KEY = env().WEATHER_API_KEY;
 
 export default class extends React.Component {
   state = {
